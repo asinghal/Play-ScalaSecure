@@ -1,0 +1,4 @@
+self: play -> scalasecure 0.1
+
+require:
+    - play
