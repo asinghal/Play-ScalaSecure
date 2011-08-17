@@ -25,7 +25,7 @@ import play.utils._
  *
  * @author Aishwarya Singhal
  */
-class Security {
+class Security[T] {
 
   /**
    * This method is called during the authentication process. This is where you check if
@@ -34,9 +34,10 @@ class Security {
    *
    * @param username
    * @param password
+   * @return authenticated token
    * @throws AuthenticationFailureException if the authentication process fails
    */
-  def authenticate(username: String, password: String) = {
+  def authenticate(username: String, password: String): T = {
     throw new AuthenticationFailureException
   }
 
@@ -76,6 +77,8 @@ class Security {
 }
 
 object Security {
+  /** ThreadLocal container managing authenticated tokens (users). */
+  var tokens: ThreadLocal[Any] = new ThreadLocal
 
   /**
    * Authenticates a login attempt.
@@ -84,7 +87,8 @@ object Security {
    * @return
    */
   def authenticate(username: String, password: String) = {
-    realm.authenticate(username, password)
+    val token = realm.authenticate(username, password)
+    tokens.set(token)
   }
 
   /**
@@ -107,7 +111,8 @@ object Security {
    * Called upon a successful logout.
    */
   def onSuccessfulLogout = {
-    realm onSuccessfulLogout
+    realm onSuccessfulLogout;
+    tokens.remove
   }
 
   /**
@@ -125,11 +130,11 @@ object Security {
    *
    * @return
    */
-  private def realm[T <: Security]: T = {
-    var security: Class[_ <: Security] = classOf[Security]
-    var classes = Play.classloader.getAssignableClasses(classOf[Security])
+  private def realm[T <: Security[_]]: T = {
+    var security: Class[_ <: Security[_]] = classOf[Security[_]]
+    var classes = Play.classloader.getAssignableClasses(classOf[Security[_]])
     if (classes.size() != 0) {
-      security = classes.get(0).asInstanceOf[Class[_ <: Security]];
+      security = classes.get(0).asInstanceOf[Class[_ <: Security[_]]];
     }
 
     security.newInstance.asInstanceOf[T]
