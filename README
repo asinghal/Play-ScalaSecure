@@ -1,0 +1,30 @@
+This module provides basic security for Play applications written in Scala.
+
+==========================================================================================================
+Installation:
+==========================================================================================================
+1. Extract the contents of /scalasecure/dist/scalasecure-0.1.zip into a local directory on the server.
+2. Add the following to dependencies.yml
+    - customModules -> scalasecure
+
+repositories:
+    - playCustomModules:
+        type: local
+        artifact: "/full/path/to/scalasecure/directory"
+        contains:
+            - customModules -> *
+3. Run "play deps" on the project
+
+That's it!
+
+==========================================================================================================
+Usage:
+==========================================================================================================
+1. The controllers that need to be secure should have the Secure trait.
+2. All methods that do not need to be secure should be annotated with @NonSecure
+3. All methods that need special permissions should be annotated with @Authorize
+4. All permissions that should be applied to each method of a controller (except those marked with @NonSecure) should be defined in @Authorize annotated on the controller object.
+5. The routes file should have the following route configured:
+
+*     /                       module:scalasecure
+
