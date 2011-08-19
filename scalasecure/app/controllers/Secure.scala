@@ -54,9 +54,9 @@ trait Secure {
       session("username") match {
         case Some(username) =>
           try {
-            authorizeAction() { getActionAnnotation(_) }
+            authorizeAction(username) { getActionAnnotation(_) }
 
-            authorizeAction() { getControllerInheritedAnnotation(_) }
+            authorizeAction(username) { getControllerInheritedAnnotation(_) }
 
             Continue
           } catch {
@@ -75,11 +75,12 @@ trait Secure {
   /**
    * Authorizes based on the permissions defined with the provided annotation details.
    *
+   * @param username
    * @param annotation
    */
-  def authorize(annotation: Authorize) = {
+  def authorize(username: String, annotation: Authorize) = {
     for (role <- annotation.values) {
-      val hasRole = Security.authorize(role)
+      val hasRole = Security.authorize(username, role)
       if (!hasRole) {
         Security.onAuthorizationFailure(role)
       }
@@ -129,12 +130,13 @@ trait Secure {
 
   /**
    * Checks if the logged in user is authorized to execute the requested method.
+   * @param username
    * @param action
    */
-  private def authorizeAction()(action: (Class[Authorize]) => Option[Authorize]) = {
+  private def authorizeAction(username: String)(action: (Class[Authorize]) => Option[Authorize]) = {
     var annotation = action(classOf[Authorize]).getOrElse(null)
     if (annotation != null) {
-      authorize(annotation)
+      authorize(username, annotation)
     }
   }
 }

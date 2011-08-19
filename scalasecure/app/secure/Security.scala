@@ -44,10 +44,11 @@ class Security[T] {
   /**
    * This method checks that a profile is allowed to view this page/methodbased on roles defined in @Authorize.
    *
+   * @param token AuthenticatedToken
    * @param role
    * @return true if you are allowed to execute this controller method.
    */
-  def authorize(role: String): Boolean = {
+  def authorize(token: Any, role: String): Boolean = {
     false
   }
 
@@ -77,27 +78,28 @@ class Security[T] {
 }
 
 object Security {
-  /** ThreadLocal container managing authenticated tokens (users). */
-  var tokens: ThreadLocal[Any] = new ThreadLocal
 
   /**
    * Authenticates a login attempt.
    * @param username
    * @param password
-   * @return
+   * @return Authenticated token
    */
-  def authenticate(username: String, password: String) = {
+  def authenticate(username: String, password: String): Any = {
     val token = realm.authenticate(username, password)
-    tokens.set(token)
+    AuthenticatedTokenHolder.set(username, token)
+    token
   }
 
   /**
    * Checks if the logged in user is authorized to perform the requested action.
+   * @param username
    * @param role
    * @return
    */
-  def authorize(role: String): Boolean = {
-    realm authorize role
+  def authorize[T](username: String, role: String): Boolean = {
+    val token = AuthenticatedTokenHolder.get(username)
+    realm authorize (token, role)
   }
 
   /**
@@ -109,10 +111,11 @@ object Security {
 
   /**
    * Called upon a successful logout.
+   * @param username
    */
-  def onSuccessfulLogout = {
+  def onSuccessfulLogout(username: String) = {
     realm onSuccessfulLogout;
-    tokens.remove
+    AuthenticatedTokenHolder.remove(username)
   }
 
   /**
@@ -138,5 +141,41 @@ object Security {
     }
 
     security.newInstance.asInstanceOf[T]
+  }
+}
+
+/**
+ * Container for holding the authenticated tokens. It uses Cache in the background.
+ *
+ * @author Aishwarya Singhal
+ */
+object AuthenticatedTokenHolder {
+  import play.cache.Cache
+
+  /**
+   * Remove the token for a given user name.
+   *
+   * @param username
+   */
+  def remove(username: String) = {
+    Cache.delete(username)
+  }
+
+  /**
+   * Save the token for a given user name.
+   *
+   * @param username
+   */
+  def set(username: String, token: Any) = {
+    Cache.set(username, token)
+  }
+
+  /**
+   * Fetch the token for a given user name.
+   *
+   * @param username
+   */
+  def get(username: String): Any = {
+    Cache.get(username)
   }
 }

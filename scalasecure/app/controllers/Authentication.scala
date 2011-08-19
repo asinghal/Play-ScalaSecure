@@ -69,14 +69,14 @@ object Authentication extends Controller {
       rememberMe(params.get("remember"), username)
 
       session.put("username", username);
-
-      redirectToOriginalURL()
     } catch {
       case e: AuthenticationFailureException =>
         flash.error("Login failed", "username")
-        flash.keep
-        Redirect("/login")
+        url = "/login"
     }
+
+    flash.keep
+    redirectToOriginalURL()
   }
 
   /**
@@ -94,10 +94,11 @@ object Authentication extends Controller {
    * Logs out the user and redirects to the root URL ("/").
    */
   def logout = {
+    val username = session.get("username")
     session.clear
     flash.remove("username")
     response.removeCookie("rememberme")
-    Security.onSuccessfulLogout
+    Security onSuccessfulLogout username
     Redirect("/")
   }
 
@@ -117,7 +118,6 @@ object Authentication extends Controller {
     if (url == null) {
       url = "/";
     }
-    flash.keep
     Redirect(url);
   }
 }
