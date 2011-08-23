@@ -48,7 +48,7 @@ class Security[T] {
    * @param role
    * @return true if you are allowed to execute this controller method.
    */
-  def authorize(token: Any, role: String): Boolean = {
+  def authorize(token: T, role: String): Boolean = {
     false
   }
 
@@ -85,10 +85,9 @@ object Security {
    * @param password
    * @return Authenticated token
    */
-  def authenticate(username: String, password: String): Any = {
+  def authenticate(username: String, password: String) = {
     val token = realm.authenticate(username, password)
     AuthenticatedTokenHolder.set(username, token)
-    token
   }
 
   /**
@@ -97,9 +96,8 @@ object Security {
    * @param role
    * @return
    */
-  def authorize[T](username: String, role: String): Boolean = {
-    val token = AuthenticatedTokenHolder.get(username)
-    realm authorize (token, role)
+  def authorize(username: String, role: String): Boolean = {
+    realm authorize (AuthenticatedTokenHolder.get(username), role)
   }
 
   /**
@@ -166,7 +164,7 @@ object AuthenticatedTokenHolder {
    *
    * @param username
    */
-  def set(username: String, token: Any) = {
+  def set[T](username: String, token: T) = {
     Cache.set(username, token)
   }
 
@@ -175,7 +173,7 @@ object AuthenticatedTokenHolder {
    *
    * @param username
    */
-  def get(username: String): Any = {
-    Cache.get(username)
+  def get[T](username: String): T = {
+    Cache.get(username).getOrElse(null).asInstanceOf[T]
   }
 }
