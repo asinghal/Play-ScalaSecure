@@ -8,6 +8,10 @@ import org.scalatest.matchers._
 import models._
 import secure._
 
+@serializable class AuthenticatedToken(){
+    var roles:List[String] = Nil
+}
+
 class SecurityTests extends UnitFlatSpec with ShouldMatchers {
 
   it should "check token holder" in {
