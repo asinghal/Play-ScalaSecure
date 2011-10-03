@@ -69,14 +69,20 @@ object Authentication extends Controller {
       rememberMe(params.get("remember"), username)
 
       session.put("username", username);
+      flash.keep
+      redirectToOriginalURL()
     } catch {
       case e: AuthenticationFailureException =>
         flash.error("Login failed", "username")
         url = "/login"
+        flash.keep
+        Redirect(url)
+      case e: Throwable =>
+        flash.error("Unknown error", "username")
+        url = "/login"
+        flash.keep
+        Redirect(url)
     }
-
-    flash.keep
-    redirectToOriginalURL()
   }
 
   /**
