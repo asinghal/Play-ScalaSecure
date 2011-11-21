@@ -134,9 +134,6 @@ trait Secure {
    * @param action
    */
   private def authorizeAction(username: String)(action: (Class[Authorize]) => Option[Authorize]) = {
-    var annotation = action(classOf[Authorize]).getOrElse(null)
-    if (annotation != null) {
-      authorize(username, annotation)
-    }
+    action(classOf[Authorize]).foreach { authorize(username, _) }
   }
 }
