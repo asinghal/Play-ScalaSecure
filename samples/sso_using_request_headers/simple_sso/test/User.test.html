@@ -1,0 +1,31 @@
+*{ You can use plain selenium command using the selenium tag }*
+
+#{selenium 'All Users'}
+    open('/users/?flatHTML=true')
+    assertTitle('All Users')
+#{/selenium}
+
+#{selenium 'Create a new User'}
+    open('/users/new')
+	type('id=username', 'test')
+type('id=name', 'test')
+type('id=empId', 'test')
+
+    clickAndWait('id=submit')
+    verifyTitle('User*')
+#{/selenium}
+
+#{selenium 'Update a User'}
+    open('/users/?flatHTML=true')
+    clickAndWait('link=Edit')
+	verifyTitle('User*')
+	
+    clickAndWait('id=submit')
+    verifyTitle('User*')
+#{/selenium}
+
+#{selenium 'Delete a User'}
+    open('/users/?flatHTML=true')
+    clickAndWait('link=Delete')
+    assertTitle('All Users')
+#{/selenium}

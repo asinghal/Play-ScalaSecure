@@ -1,0 +1,11 @@
+@(_userRole:models.UserRole, _action: String)
+
+<form id="UserRolesForm" name="UserRolesForm" method="POST" action="@_action">
+<input type="hidden" id="id" name="id" value="@_userRole.id" />
+<div class="field_row"><label for="name">Name:</label><div class="field_holder"><input type="text" id="name" name="name" value="@_userRole.name" /></div></div>
+<div class="field_row"><label for="user">User:</label><div class="field_holder"><input type="text" id="user" name="user" value="@_userRole.user" /></div></div>
+
+<br/><br/>
+<input type="submit" id="submit" value="Submit" />
+<input type="reset" id="reset" value="Reset" />
+</form>

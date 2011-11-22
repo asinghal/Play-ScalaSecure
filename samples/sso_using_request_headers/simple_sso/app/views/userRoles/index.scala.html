@@ -1,0 +1,41 @@
+@(title:String, allUserRoles:List[models.UserRole])
+@main(title, true, "userRoles.js") {
+
+<span class="pageTitle">Listing UserRoles</span>
+
+@if(allUserRoles != null) {
+<table class="listing">
+  <tr>
+        <th>Name</th>
+    <th>User</th>
+
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  @if(allUserRoles.size > 0) {
+    @for(userRole <- allUserRoles) {
+  <tr>
+        <td>@userRole.name</td>
+    <td>@userRole.user</td>
+
+    <td><a href="@action(controllers.UserRolesController.show(userRole.id))">Details</a></td>
+    <td><a href="@action(controllers.UserRolesController.edit(userRole.id))">Edit</a></td>
+    <td><a href="@action(controllers.UserRolesController.delete(userRole.id))">Delete</a></td>
+  </tr>
+    }
+  }
+
+</table>
+}
+<br />
+
+<table id="listingGrid"></table>
+<div id="pager"></div>
+
+<br />
+
+<a href="@action(controllers.UserRolesController.newValue)">Add a new UserRole</a>
+
+}

@@ -1,0 +1,29 @@
+*{ You can use plain selenium command using the selenium tag }*
+
+#{selenium 'All UserRoles'}
+    open('/userRoles/?flatHTML=true')
+    assertTitle('All UserRoles')
+#{/selenium}
+
+#{selenium 'Create a new UserRole'}
+    open('/userRoles/new')
+	type('id=name', 'test')
+
+    clickAndWait('id=submit')
+    verifyTitle('UserRole*')
+#{/selenium}
+
+#{selenium 'Update a UserRole'}
+    open('/userRoles/?flatHTML=true')
+    clickAndWait('link=Edit')
+	verifyTitle('UserRole*')
+	
+    clickAndWait('id=submit')
+    verifyTitle('UserRole*')
+#{/selenium}
+
+#{selenium 'Delete a UserRole'}
+    open('/userRoles/?flatHTML=true')
+    clickAndWait('link=Delete')
+    assertTitle('All UserRoles')
+#{/selenium}

@@ -1,0 +1,13 @@
+@(title:String, userRole:models.UserRole)
+@import views.userRoles.html.form
+@main(title) {
+
+<span class="pageTitle">Edit UserRole</span>
+
+@form(_userRole=userRole, _action="/userRoles/"+ userRole.id +"/update")
+
+<br />
+
+<a href="@action(controllers.UserRolesController.index)">All UserRoles</a>
+
+}

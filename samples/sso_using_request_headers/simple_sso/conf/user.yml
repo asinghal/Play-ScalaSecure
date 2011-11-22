@@ -1,0 +1,20 @@
+# This is test data for models.User
+
+
+User(user1):
+     username: test1
+     name: test user1
+     password: password1
+     role: admin
+
+User(user2):
+     username: test2
+     name: test user2
+     password: password2
+     role: appuser
+
+User(user3):
+     username: test3
+     name: test user3
+     password: password3
+     role: another

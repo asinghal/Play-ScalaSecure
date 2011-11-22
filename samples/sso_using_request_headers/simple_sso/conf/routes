@@ -1,0 +1,28 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                       Application.index
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public
+
+GET     /users/?                                 UsersController.index
+GET     /users/new                              UsersController.newValue
+GET     /users/grid                              UsersController.grid
+POST     /users/create                             UsersController.create
+GET     /users/{id}/edit                        UsersController.edit
+POST     /users/{id}/update                        UsersController.update
+GET     /users/{id}/delete                      UsersController.delete
+GET     /users/{id}                             UsersController.show
+
+*       /login/?                                        SSOAuthentication.login
+
+*     /                       module:scalasecure
+
+# Catch all
+*       /{controller}/{action}                  {controller}.{action}

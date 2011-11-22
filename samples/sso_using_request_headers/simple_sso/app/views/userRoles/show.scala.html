@@ -1,0 +1,16 @@
+@(title:String, userRole:models.UserRole)
+@main(title) {
+
+<span class="pageTitle">UserRole Details</span>
+
+<br/>    Name: @userRole.name
+<br/>    User: @userRole.user
+
+
+<br />
+<br />
+
+<a href="@action(controllers.UserRolesController.edit(userRole.id))">Edit</a>|&nbsp;
+<a href="@action(controllers.UserRolesController.index)">All UserRoles</a>
+
+}

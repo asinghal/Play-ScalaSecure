@@ -1,0 +1,18 @@
+@(_monthElement: String,_dayElement: String,_yearElement: String)
+@import java.text.SimpleDateFormat
+@import java.util.Calendar
+@import java.util.GregorianCalendar
+
+<select id="@_monthElement" name="@_monthElement" value="" />
+@for(i <- 1 to 12 ) {
+<option value="@i">@(new SimpleDateFormat("MMM").format(new GregorianCalendar(1900, i-1, 1).getTime))</option>
+}
+</select><select id="@_dayElement" name="@_dayElement" value="" />
+@for(i <- 1 to 31 ) {
+<option value="@i">@i</option>
+}
+</select><select id="@_yearElement" name="@_yearElement" value="" />
+@for(i <- (Calendar.getInstance().get(Calendar.YEAR) - 5) to (Calendar.getInstance().get(Calendar.YEAR) + 5) ) {
+<option value="@i">@i</option>
+}
+</select>

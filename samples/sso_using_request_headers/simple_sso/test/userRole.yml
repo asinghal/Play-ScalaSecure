@@ -1,0 +1,6 @@
+# This is test data for models.UserRole
+
+
+# UserRole(userRole1):
+#     name: test
+#     user: user1

@@ -1,0 +1,13 @@
+@(title:String, user:models.User)
+@import views.users.html.form
+@main(title) {
+
+<span class="pageTitle">Edit User</span>
+
+@form(_user=user, _action="/users/"+ user.id +"/update")
+
+<br />
+
+<a href="@action(controllers.UsersController.index)">All Users</a>
+
+}
