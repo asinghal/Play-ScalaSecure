@@ -1,0 +1,12 @@
+This is a sample application depicting how you could use SSO with this module.
+
+==========================================================================================================
+Highlights:
+==========================================================================================================
+1. A custom Security implementation in app/secure/SimpleSSO.scala
+2. A custom controller to override the default login/password mechanism in app/controllers/SSOAuthentication.scala
+3. The routes file should have the following route configured:
+
+*       /login/?                                        SSOAuthentication.login
+
+This must be *before* module:scalasecure mapping so that it overrides the default login implementation. 
