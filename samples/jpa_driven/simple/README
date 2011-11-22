@@ -1,0 +1,9 @@
+This is a sample application depicting how you could use basic authentication/ authorization using JPA with this module.
+
+==========================================================================================================
+Highlights:
+==========================================================================================================
+1. A custom Security implementation in app/secure/JPASecurity.scala
+2. Authorization annotations in UsersController.scala
+
+That really is it! 

@@ -5,7 +5,8 @@ Highlights:
 ==========================================================================================================
 1. A custom Security implementation in app/secure/SimpleSSO.scala
 2. A custom controller to override the default login/password mechanism in app/controllers/SSOAuthentication.scala
-3. The routes file should have the following route configured:
+3. Authorization annotations in UsersController.scala
+4. The routes file should have the following route configured:
 
 *       /login/?                                        SSOAuthentication.login
 

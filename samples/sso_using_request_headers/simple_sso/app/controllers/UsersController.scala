@@ -6,6 +6,7 @@ import play._
 import play.mvc._
 
 import models._
+import secure._
 
 /**
  * Controller class for User. Defines methods for all CRUD operations.
@@ -16,6 +17,7 @@ object UsersController extends Controller with Secure{
   import _root_.utils._
   import play.data.validation._
 
+  @NonSecure
   def index = {
     val showPlainHTML = if (!isEmptyString(params.get("flatHTML"))) params.get("flatHTML").toBoolean else false
     val allUsers = if (showPlainHTML) User.find(
@@ -33,11 +35,13 @@ object UsersController extends Controller with Secure{
     }
   }
 
+  @Authorize(values = Array("admin"))
   def newValue() = {
      var user = new User
      html.newValue("New User", user)
   }
 
+  @Authorize(values = Array("admin"))
   def edit(id: Long) = {
   
     User.findById(id).map { user =>
