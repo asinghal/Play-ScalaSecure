@@ -1,0 +1,45 @@
+@(title:String, allUsers:List[models.User])
+@main(title, true, "users.js") {
+
+<span class="pageTitle">Listing Users</span>
+
+@if(allUsers != null) {
+<table class="listing">
+  <tr>
+        <th>Date Of Birth</th>
+    <th>Username</th>
+    <th>Name</th>
+    <th>Password</th>
+
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  @if(allUsers.size > 0) {
+    @for(user <- allUsers) {
+  <tr>
+        <td>@user.dateOfBirth</td>
+    <td>@user.username</td>
+    <td>@user.name</td>
+    <td>@user.password</td>
+
+    <td><a href="@action(controllers.UsersController.show(user.id))">Details</a></td>
+    <td><a href="@action(controllers.UsersController.edit(user.id))">Edit</a></td>
+    <td><a href="@action(controllers.UsersController.delete(user.id))">Delete</a></td>
+  </tr>
+    }
+  }
+
+</table>
+}
+<br />
+
+<table id="listingGrid"></table>
+<div id="pager"></div>
+
+<br />
+
+<a href="@action(controllers.UsersController.newValue)">Add a new User</a>
+
+}

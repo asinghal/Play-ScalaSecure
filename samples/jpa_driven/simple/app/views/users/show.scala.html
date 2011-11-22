@@ -1,0 +1,18 @@
+@(title:String, user:models.User)
+@main(title) {
+
+<span class="pageTitle">User Details</span>
+
+<br/>    Date Of Birth: @user.dateOfBirth
+<br/>    Username: @user.username
+<br/>    Name: @user.name
+<br/>    Password: @user.password
+
+
+<br />
+<br />
+
+<a href="@action(controllers.UsersController.edit(user.id))">Edit</a>|&nbsp;
+<a href="@action(controllers.UsersController.index)">All Users</a>
+
+}

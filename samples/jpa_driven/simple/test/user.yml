@@ -1,0 +1,8 @@
+# This is test data for models.User
+
+
+# User(user1):
+#     dateOfBirth: dateOfBirth1
+#     username: test
+#     name: test
+#     password: test

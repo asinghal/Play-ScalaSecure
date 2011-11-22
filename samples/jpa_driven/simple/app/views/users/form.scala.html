@@ -1,0 +1,13 @@
+@(_user:models.User, _action: String)
+
+<form id="UsersForm" name="UsersForm" method="POST" action="@_action">
+<input type="hidden" id="id" name="id" value="@_user.id" />
+<div class="field_row"><label for="dateOfBirth">Date Of Birth:</label><div class="field_holder"><input type="text" id="dateOfBirth" name="dateOfBirth" value="@_user.dateOfBirth" /></div></div>
+<div class="field_row"><label for="username">Username:</label><div class="field_holder"><input type="text" id="username" name="username" value="@_user.username" /></div></div>
+<div class="field_row"><label for="name">Name:</label><div class="field_holder"><input type="text" id="name" name="name" value="@_user.name" /></div></div>
+<div class="field_row"><label for="password">Password:</label><div class="field_holder"><input type="text" id="password" name="password" value="@_user.password" /></div></div>
+
+<br/><br/>
+<input type="submit" id="submit" value="Submit" />
+<input type="reset" id="reset" value="Reset" />
+</form>
