@@ -104,7 +104,7 @@ object Authentication extends Controller {
     session.clear
     flash.remove("username")
     response.removeCookie("rememberme")
-    Security onSuccessfulLogout username
+    Security.onSuccessfulLogout(username)
     Redirect("/")
   }
 
@@ -119,7 +119,8 @@ object Authentication extends Controller {
    * Redirects user to the requested URL post login.
    */
   private def redirectToOriginalURL() = {
-    Security.onSuccessfulLogin
+    val username = session.get("username")
+    Security.onSuccessfulLogin(username)
     var url = flash.get("url");
     if (url == null) {
       url = "/";
