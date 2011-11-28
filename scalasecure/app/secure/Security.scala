@@ -56,7 +56,7 @@ class Security[T] {
    * This method is called after a successful authentication.
    * You need to override this method if you with to perform specific actions (eg. Record the time the user signed in)
    */
-  def onSuccessfulLogin = {
+  def onSuccessfulLogin(username: String) = {
 
   }
 
@@ -64,7 +64,7 @@ class Security[T] {
    * This method is called after a successful sign off.
    * You need to override this method if you wish to perform specific actions (eg. Record the time the user signed off)
    */
-  def onSuccessfulLogout = {
+  def onSuccessfulLogout(username: String) = {
 
   }
 
@@ -103,8 +103,8 @@ object Security {
   /**
    * Called upon a successful login.
    */
-  def onSuccessfulLogin = {
-    realm onSuccessfulLogin
+  def onSuccessfulLogin(username: String) = {
+    realm onSuccessfulLogin(username)
   }
 
   /**
@@ -112,7 +112,7 @@ object Security {
    * @param username
    */
   def onSuccessfulLogout(username: String) = {
-    realm onSuccessfulLogout;
+    realm onSuccessfulLogout(username)
     AuthenticatedTokenHolder.remove(username)
   }
 
